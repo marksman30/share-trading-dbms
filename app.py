@@ -14,10 +14,12 @@ import streamlit as st
 import mysql.connector
 
 from create import create
+# from delete import delete
 # from database import create_table
 # from delete import delete
 from read import read
 from purchase import buy
+from sell import sell 
 # from update import update
 
 # mydb = mysql.connector.connect(
@@ -32,25 +34,29 @@ from purchase import buy
 
 def main():
     st.title("Share trading app")
-    menu = ["Add", "View", "Buy", "Remove"]
+    menu = ["Add", "View", "Buy", "Sell"]
     choice = st.sidebar.selectbox("Menu", menu)
-
+    
     # create_table()
     if choice == "Add":
+        
         st.subheader("Enter Dealer Details:")
         create()
 
     elif choice == "View":
+        
         st.subheader("View User infos")
         read()
 
     elif choice == "Buy":
+        
         st.subheader("Purchase share")
         buy()
+        
 
-    # elif choice == "Remove":
-    #     st.subheader("Delete created tasks")
-    #     delete()
+    elif choice == "Sell":
+        st.subheader("Sell Share")
+        sell()
 
     # else:
     #     st.subheader("About tasks")
