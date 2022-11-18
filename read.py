@@ -41,7 +41,7 @@ def read():
             with tab2:
                 col1, col2= st.columns(2)
                 col1.metric("Invested Value", "₹"+str(invested_value))
-                col2.metric("Current Value", "₹"+str(current_value), "₹"+str(current_value-invested_value))
+                col2.metric("Current Value", "₹"+str(current_value))
             with tab3:
                 
                 st.dataframe(df1)

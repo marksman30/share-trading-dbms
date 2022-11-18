@@ -1,4 +1,3 @@
-# pip install mysql-connector-python
 import streamlit as st
 import mysql.connector
 from datetime import date
@@ -88,26 +87,12 @@ def find_share_name_user(usr_id):
     data=c.fetchall()
     return data
 
-# def view_only_dealer_names():
-#     c.execute('SELECT dealer_name FROM DEALER')
-#     data = c.fetchall()
-#     return data
+def share_quantity(uid,company_id):
+    c.execute('select qty from shares where usr_id=%(uid)s and company_id=%(cid)s',{'uid':uid,'cid':company_id})
+    data=c.fetchall()
+    return data[0][0]
 
-
-# def get_dealer(dealer_name):
-#     c.execute('SELECT * FROM DEALER WHERE dealer_name="{}"'.format(dealer_name))
-#     data = c.fetchall()
-#     return data
-
-
-# def edit_dealer_data(new_dealer_id, new_dealer_name, new_dealer_city, new_dealer_pin, new_dealer_street, dealer_id, dealer_name, dealer_city, dealer_pin, dealer_street):
-#     c.execute("UPDATE DEALER SET dealer_id=%s, dealer_name=%s, dealer_city=%s, dealer_pin=%s, dealer_street=%s WHERE "
-#               "dealer_id=%s and dealer_name=%s and dealer_city=%s and dealer_pin=%s and dealer_street=%s", (new_dealer_id, new_dealer_name, new_dealer_city, new_dealer_pin, new_dealer_street, dealer_id, dealer_name, dealer_city, dealer_pin, dealer_street))
-#     mydb.commit()
-#     data = c.fetchall()
-#     return data
-
-
-# def delete_data(dealer_name):
-#     c.execute('DELETE FROM DEALER WHERE dealer_name="{}"'.format(dealer_name))
-#     mydb.commit()
+def sell_shares(uid,cid,qty,current_value):
+    c.execute('update shares set qty=qty-%(qty)s where usr_id=%(uid)s and company_id=%(cid)s',{'qty':qty,'uid':uid,'cid':cid})
+    c.execute('update account_summary set bank_bal=bank_bal+%(tot)s where usr_id=%(uid)s ',{'tot':qty*current_value,'uid':uid})
+    st.success('successfully sold')

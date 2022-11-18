@@ -5,11 +5,13 @@ import pandas as pd
 from database import find_company
 from database import purchase_share
 from database import find_share_name_user
+from database import share_quantity
+from database import sell_shares
 
 def sell():
     
     user=find_users()
-    choice_1=st.selectbox("select user",tuple([i[0] for i in user]))
+    choice_1=st.selectbox("select user",tuple([i[0] for i in user])) #choice_1=users
     companies=find_share_name_user(choice_1)
     if len(companies)==0:
         st.error("The user has not purchased any shares")
@@ -31,6 +33,16 @@ def sell():
         st.write('')
         st.write('')
         st.write('')
+        qty=share_quantity(choice_1,share_info[0][0])
+        num_input=st.number_input("quantity of shares",min_value=0,max_value=qty,step=1)
+        st.write('share price:'+str(num_input*share_info[0][5]))
+
+        switch=False
+        if num_input==0:
+            switch=True
+        if st.button("Sell",disabled=switch):
+            sell_shares(choice_1,share_info[0][0],num_input,share_info[0][5])
+        
         
 
     
